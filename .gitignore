@@ -1,0 +1,25 @@
+# Standard Python stuff
+__pycache__/
+*.py[cod]
+*$py.class
+build/
+develop-eggs/
+dist/
+eggs/
+.eggs/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.env
+.venv
+.DS_Store
+.vscode/
+.idea/
+
+poetry.lock
+
