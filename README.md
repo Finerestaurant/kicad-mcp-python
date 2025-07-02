@@ -15,8 +15,16 @@ This project is a Model Context Protocol (MCP) server for [KiCad](https://kicad.
 
 
 
+https://github.com/user-attachments/assets/e2ba57e7-2c77-4c56-a911-c461c77307e4
+
+
+
 ### Move item
 
+
+
+
+https://github.com/user-attachments/assets/de6c93dc-8808-4321-827e-ebad0556e7b1
 
 
 
