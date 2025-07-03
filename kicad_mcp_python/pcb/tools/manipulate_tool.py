@@ -279,7 +279,7 @@ class MoveItemFlowManager(ActionFlowManager, PCBTool):
         self.action_setter(self.move_item_step_3)
     
     
-    def move_item_step_1(self, item_id: list[str]):
+    def move_item_step_1(self):
         """ # move_item_1
         
             Entrance tool to move item in the PCB design.
