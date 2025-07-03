@@ -217,27 +217,6 @@ class EditItemFlowManager(ActionFlowManager, PCBTool):
     # ex) edit_item_step_3(item_id: Sequence[str], args: Dict)
     def edit_item_step_3(self, item_id: str, args: Dict):
         """ # edit_item_3
-            Edits the specified item with the provided arguments.
-            It is recommended to exclude properties such as position and orientation since move_item exists separately.
-            
-        Args:
-            item_id (str): ID of the item to be edited
-            args (Dict): Properties of the item to be edited
-            
-        Returns:
-            str: ID or name of the edited item
-            
-        Next action:
-            verify_result
-        """
-        self.initialize_board() # Initialize the board
-        
-        
-        id = KIID()
-        id.value = item_id
-    # ex) edit_item_step_3(item_id: Sequence[str], args: Dict)
-    def edit_item_step_3(self, item_id: str, args: Dict):
-        """ # edit_item_3
         
         Edits the specified item with the provided arguments.
         It is recommended to exclude properties such as position and orientation since move_item exists separately.
