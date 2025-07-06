@@ -40,8 +40,7 @@ With this MCP server, an AI model can perform tasks such as:
 *   **Analyze PCBs**:
     *   Get a list of all items of a specific type on the board
     *   Query the overall status information of the board
-*   **Visual Verification**:
-    *   Generate PNG images of the entire board, routing layers, or component layers to visually inspect the design. This feature is planned for future implementation to enhance the verification process of PCB designs.
+
 
 ## Getting Started
 
