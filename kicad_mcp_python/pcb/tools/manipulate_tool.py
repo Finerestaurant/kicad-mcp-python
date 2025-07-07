@@ -36,12 +36,28 @@ def convert_to_object(descriptor, args):
                         args[field.name]
                     )
                     getattr(wrapper, field.name).CopyFrom(nested_obj)
+
             else:
-                setattr(
-                    wrapper, 
-                    field.name, 
-                    args[field.name]
-                )
+                if field.type == FieldDescriptor.TYPE_ENUM:
+                    if field.label == FieldDescriptor.LABEL_REPEATED:
+                        getattr(
+                            wrapper, 
+                            field.name, 
+                        ).extend(args[field.name])
+                    else:
+                        setattr(
+                        wrapper, 
+                        field.name, 
+                        args[field.name]
+                    )
+                    
+                else:
+                    setattr(
+                        wrapper, 
+                        field.name, 
+                        args[field.name]
+                    )
+
     return wrapper
 
 
