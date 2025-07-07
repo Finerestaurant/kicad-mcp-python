@@ -15,7 +15,6 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
-.env
 .venv
 .DS_Store
 .vscode/

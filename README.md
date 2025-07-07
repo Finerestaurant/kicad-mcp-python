@@ -59,7 +59,27 @@ This project uses the `kicad-python` library as a Git submodule. Therefore, you 
 2.  **Build and Install `kicad-python`**:
     Navigate to the `kicad-python` directory and follow the instructions in that project's `COMPILING.md` file to build and install the library.
 
-### 2. Install and Run the MCP Server
+### 2. Configure Environment Variables
+
+Before running the server, you need to create a `.env` file in the project's root directory (`KiCad-mcp-python/.env`). This file is crucial for tools that rely on KiCad's command-line interface (CLI), such as the `verify_result` tool which generates screenshots to confirm the results of an operation. It stores the necessary environment variables for the server to function correctly.
+
+Create a file named `.env` and add the following content, adjusting the paths to match your system configuration:
+
+```
+KICAD_CLI_PATH=/path/to/your/kicad-cli
+PCB_PATHS=/path/to/your/project1.kicad_pcb,/path/to/your/project2.kicad_pcb
+```
+
+**Variable Explanations:**
+
+*   `KICAD_CLI_PATH`: The absolute path to the KiCad command-line interface (CLI) executable.
+    *   **macOS Example**: `/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli`
+    *   **Windows Example**: `C:\Program Files\KiCad\7.0\bin\kicad-cli.exe`
+    *   **Linux Example**: `/usr/bin/kicad-cli`
+*   `PCB_PATHS`: A comma-separated list of absolute paths to the `.kicad_pcb` files you want the MCP server to be able to access.
+
+
+### 3. Install and Run the MCP Server
 
 1.  **Install Dependencies**:
     Once `kicad-python` is installed, return to this project's root directory and run the following command to install the remaining dependencies:
@@ -78,7 +98,7 @@ This project uses the `kicad-python` library as a Git submodule. Therefore, you 
 
 The server is now waiting for a connection from an MCP client.
 
-### 3. MCP Client Configuration
+### 4. MCP Client Configuration
 
 To use this server with an MCP client (e.g., a VSCode extension), you need to configure the server execution command correctly.
 

@@ -160,7 +160,7 @@ class CreateItemFlowManager(ActionFlowManager, PCBTool):
             str: The ID or name of the created item
             
         Next action:
-            verify_result
+            verify_pcb_step_1
         """
         self.initialize_board() # Initialize the board
         
@@ -245,7 +245,7 @@ class EditItemFlowManager(ActionFlowManager, PCBTool):
             str: ID or name of the edited item
             
         Next action:
-            verify_result
+            verify_pcb_step_1
         """
         self.initialize_board() # Initialize the board
         
@@ -356,7 +356,7 @@ class MoveItemFlowManager(ActionFlowManager, PCBTool):
             str: ID or name of the modified item
             
         Next action:
-            verify_result  # TODO
+            verify_pcb_step_1
         """
         self.initialize_board() # Initialize the board
         
@@ -425,7 +425,7 @@ class RemoveItemFlowManager(ActionFlowManager):
             item_ids (list): List of item IDs to be removed.
             
         Next action:
-            verify_result  # TODO
+            verify_pcb_step_1
         """
         self._initialize_board()
         

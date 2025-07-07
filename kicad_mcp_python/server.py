@@ -9,7 +9,7 @@ import threading
 from typing import Callable, List
 from mcp.server.fastmcp import FastMCP
 
-from kicad_mcp_python.pcb.tools import ManipulationTools
+from kicad_mcp_python.pcb.tools import ManipulationTools, VerifyTools
 
 
 # Import context management
@@ -220,7 +220,7 @@ def create_server() -> FastMCP:
     
     # Create tool managers
     ManipulationTools.register_tools(mcp)
-    
+    VerifyTools.register_tools(mcp)
     register_cleanup = setup_graceful_shutdown(mcp)
     
     # Register KiCad-related cleanup handlers
