@@ -143,7 +143,7 @@ To use this server with an MCP client (e.g., a VSCode extension), you need to co
 
 ### [0.2.0] (Planned)
 *   Implement functionality to select and modify or move multiple PCB items at once.
-*   Add a `verify_result` tool that uses screenshots for visual confirmation after operations.
+*   Add a `verify_result` tool that uses screenshots for visual confirmation after operations. ([0708 commit](https://github.com/Finerestaurant/kicad-mcp-python/commit/c3daf7f833ddf46ffe2f80de01e1e54310304950))
 
 ### [0.1.0] - 2025-07-02
 *   Initial release of the KiCad MCP server.
