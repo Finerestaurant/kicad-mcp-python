@@ -1,8 +1,12 @@
 import logging
-from typing import Any, Dict, Optional, Callable
+import inspect
 
-from mcp.server.fastmcp import FastMCP
+from typing import Any, Dict, Optional, Callable, get_origin
+
+from mcp.server.fastmcp import FastMCP, Context
 from kipy import KiCad
+from mcp.server.fastmcp.tools.base import Tool, func_metadata
+
 
 logger = logging.getLogger(__name__)
 
@@ -13,14 +17,15 @@ class ActionFlowManager:
         self.action_flow = []  # Initialize action flow as a list
         self.mcp_tools = {}  # Store registered MCP tools
         self.flow_graph = {}  # Flow graph (information about the next function to execute)
-
-    def _initialize_board(self):
+        
+        
+    def initialize_board(self):
         # TODO: Need to add logic to refresh the board.
         try:
             self.board = KiCad().get_board()
         except Exception as e:
             raise RuntimeError(f"Failed to initialize the board: {str(e)}")
-        
+
 
     def get_next_action(self, current_action: str) -> Optional[str]:
         """Returns the action to be executed after the current action"""
@@ -55,25 +60,61 @@ class ActionFlowManager:
         A function that adds a method to the action_flow list and registers it as an MCP tool.
         The registered function formats the result through self.response_formatter upon execution.
         """
-        self._initialize_board()
         self.action_flow.append(func.__name__)
 
         # Register as an MCP tool (apply the actual mcp.tool decorator)
         try:
-            mcp_registered_tool = self.mcp.tool(
+
+            def initialize_func(*args, **kwargs):
+                """
+                A wrapper function that calls the original function and formats the result.
+                """
+                self.initialize_board()
+                try:
+                    result = func(*args, **kwargs)
+                    return self.response_formatter(result)
+                except Exception as e:
+                    logger.error(f"Error executing {func.__name__}: {e}")
+                    return self.response_formatter(str(e), status='error', error_type=type(e).__name__)
+            
+            # https://github.com/modelcontextprotocol/python-sdk/blob/main/src/mcp/server/fastmcp/tools/base.py#L40
+            # The reason for directly using Tool.from_function to register the MCP tool
+            # is because context_kwarg is required.
+            context_kwarg = None
+            sig = inspect.signature(func)
+            for param_name, param in sig.parameters.items():
+                print(param_name, param.annotation)
+                if get_origin(param.annotation) is not None:
+                    continue
+                if issubclass(param.annotation, Context):
+                    context_kwarg = param_name
+                    break
+                
+            func_arg_metadata = func_metadata(
+                func,
+                skip_names=[context_kwarg] if context_kwarg is not None else [],
+            )
+            parameters = func_arg_metadata.arg_model.model_json_schema()
+
+            tool = Tool(
+                fn=initialize_func,
                 name=func.__name__,
-                description=func.__doc__
-            )(func)
+                title=None,
+                description=func.__doc__,
+                parameters=parameters,
+                fn_metadata=func_arg_metadata,
+                is_async=False,
+                context_kwarg=context_kwarg,
+                annotations=None,
+            )
+            self.mcp._tool_manager._tools[tool.name] = tool
+            
             
         except Exception as e:
-            # If registration fails, you can use the original function as is, or handle the error.
-            # Here, we print a registration failure message and do not add it to mcp_tools,
-            # or we can insert wrapped_func (a version not registered with mcp).
-            # Currently, it is not added to mcp_tools upon registration failure.
-            return # Exit the function upon registration failure
+            raise RuntimeError(f"Failed to register tool {func.__name__}: {str(e)}")
         
         # Store in the MCP tool dictionary
-        self.mcp_tools[func.__name__] = mcp_registered_tool
+        self.mcp_tools[func.__name__] = func
         
     
     def get_mcp_tools(self) -> Dict[str, Callable]:

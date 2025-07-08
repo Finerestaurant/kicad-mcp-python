@@ -37,7 +37,6 @@ class VerifyFlowManager(ActionFlowManager):
         Next action:
             get_board_status
         """
-        self._initialize_board()
         base64_image = self.pcb_converter.pcb_to_jpg_via_svg(
             boardname=self.board.name,
             layers=layers

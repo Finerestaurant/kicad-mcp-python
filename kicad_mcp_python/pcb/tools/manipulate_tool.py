@@ -113,10 +113,8 @@ class CreateItemFlowManager(ActionFlowManager, PCBTool):
         Next action:
             create_item_step_2
         """
-        # Item creation logic (e.g., creating an item using PCB tools)
-        board_item_type = BOARDITEM_TYPE_CONFIGS.keys()
 
-        return self.response_formatter(board_item_type)
+        return BOARDITEM_TYPE_CONFIGS.keys()
     
         
     def create_item_step_2(
@@ -138,7 +136,7 @@ class CreateItemFlowManager(ActionFlowManager, PCBTool):
             create_item_step_3
         """
 
-        return self.response_formatter(BOARDITEM_TYPE_CONFIGS[item_type])
+        return BOARDITEM_TYPE_CONFIGS[item_type]
     
     
     def create_item_step_3(
@@ -168,11 +166,8 @@ class CreateItemFlowManager(ActionFlowManager, PCBTool):
         kipy_wrapper = get_wrapper_class(item_type)
         
         # Create the item using the KiCad API
-        try:
-            item_id = self.board.create_items(kipy_wrapper(new_class))
-            return self.response_formatter(item_id)
-        except Exception as e:
-            raise RuntimeError(f"Failed to create the item: {str(e)}")
+        item_id = self.board.create_items(kipy_wrapper(new_class))
+        return item_id
     
     
     
@@ -205,7 +200,7 @@ class EditItemFlowManager(ActionFlowManager, PCBTool):
             edit_item_step_2
         """
         item_types = BOARDITEM_TYPE_CONFIGS.keys()
-        return self.response_formatter(item_types)
+        return item_types
     
     
     def edit_item_step_2(self, item_type: str): 
@@ -226,7 +221,7 @@ class EditItemFlowManager(ActionFlowManager, PCBTool):
         self.item_type_cache = item_type # version 9.0.0
         
         result = get_item_list_config(self.board, item_type)
-        return self.response_formatter(result)
+        return result
 
 
     # TODO: Add the ability to edit multiple items.
@@ -272,12 +267,8 @@ class EditItemFlowManager(ActionFlowManager, PCBTool):
             
         # Create a new item protocol wrapper
         return_wrapper = get_wrapper_class(target_item_proto.DESCRIPTOR.name)(target_item_proto)
-        try:
-            edit_item = self.board.update_items(return_wrapper)
-            return self.response_formatter(edit_item)
-        except Exception as e:
-            raise RuntimeError(f"Failed to move the item: {str(e)}")
-        
+        edit_item = self.board.update_items(return_wrapper)
+        return edit_item
         
         
 class MoveItemFlowManager(ActionFlowManager, PCBTool):
@@ -309,7 +300,7 @@ class MoveItemFlowManager(ActionFlowManager, PCBTool):
         """
         
         item_types = BOARDITEM_TYPE_CONFIGS.keys()
-        return self.response_formatter(item_types)
+        return item_types
     
     
     def move_item_step_2(self, item_type: str): 
@@ -333,7 +324,7 @@ class MoveItemFlowManager(ActionFlowManager, PCBTool):
         item.id.value:item for item in self.board.get_items(
         get_object_type(item_type)
         )}
-        return self.response_formatter(result)
+        return result
 
 
     # TODO: Add the ability to modify multiple items.
@@ -397,11 +388,8 @@ class MoveItemFlowManager(ActionFlowManager, PCBTool):
             if angle is not None:
                 target_item.orientation += Angle.from_degrees(angle)
 
-        try:
-            move_item = self.board.update_items(target_item)
-            return self.response_formatter(move_item)
-        except Exception as e:
-            raise RuntimeError(f"Failed to move the item: {str(e)}")
+        move_item = self.board.update_items(target_item)
+        return move_item
         
         
         
@@ -437,7 +425,7 @@ class RemoveItemFlowManager(ActionFlowManager):
             kiid_ids.append(kiid)
         
         response = self.board.remove_items_by_id(kiid_ids)
-        return self.response_formatter(response)
+        return response
     
     
 
