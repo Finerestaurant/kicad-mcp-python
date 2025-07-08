@@ -23,13 +23,12 @@ class VerifyFlowManager(ActionFlowManager):
         self.action_setter(self.verify_pcb_step_1)
     
         
-    def verify_pcb_step_1(self, layers: list):
+    def verify_pcb_step_1(self):
         # TODO: Add more options for verifying PCB files.
         """ # verify_pcb_step_2
         
         Args:
             pcb_path (str): The path to the PCB file to be verified.
-            layers (list): List of layers to be included in the verification.
             
         Returns:
             base64 (str): Base64 encoded string of the converted PCB image.
@@ -39,7 +38,6 @@ class VerifyFlowManager(ActionFlowManager):
         """
         base64_image = self.pcb_converter.pcb_to_jpg_via_svg(
             boardname=self.board.name,
-            layers=layers
             )
         
         return ImageContent(
