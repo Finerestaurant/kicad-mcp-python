@@ -25,7 +25,7 @@ class VerifyFlowManager(ActionFlowManager):
         
     def verify_pcb_step_1(self):
         # TODO: Add more options for verifying PCB files.
-        """ # verify_pcb_step_2
+        """ # verify_pcb_step_1
         
         Args:
             pcb_path (str): The path to the PCB file to be verified.
