@@ -40,6 +40,8 @@ With this MCP server, an AI model can perform tasks such as:
 *   **Analyze PCBs**:
     *   Get a list of all items of a specific type on the board
     *   Query the overall status information of the board
+*   **Verify Results**:
+    *   Generate screenshots of the PCB to visually confirm the results of an operation.
 
 
 ## Getting Started
@@ -113,7 +115,7 @@ To use this server with an MCP client (e.g., a VSCode extension), you need to co
     Add the server information to your MCP client's configuration file (e.g., `mcp_servers.json`) as follows:
 
     *   `command`: Enter the full path to the interpreter by appending `/bin/python` to the path you copied above.
-    *   `args`: Add `["main.py"]` to specify the script to run.
+    *   `args`: Add `["/path/to/your/KiCad-mcp-python/main.py"]` to specify the script to run. Make sure to provide the full, absolute path to `main.py`.
 
 
     **Configuration Example:**
@@ -123,7 +125,7 @@ To use this server with an MCP client (e.g., a VSCode extension), you need to co
         {
           "name": "kicad-mcp-server",
           "command": "/pypoetry/virtualenvs/kicad-mcp-python-xxxxxxxx-py3.10/bin/python",
-          "args": ["main.py"],
+          "args": ["/path/to/your/kicad-mcp-python/main.py"],
 
         }
       ]
@@ -136,14 +138,13 @@ To use this server with an MCP client (e.g., a VSCode extension), you need to co
 *   **Simultaneous Multi-Item Editing/Moving**: We will implement functionality to select and modify or move multiple PCB items at once.
 
 *   **Workflow Improvements**: We will improve the step-by-step flow of tools like item creation and modification to provide a more efficient and intuitive API.
-*   **ScreenShot Verification**: We will implement a step to automatically verify the results after item manipulation to increase the reliability of operations.
 
 
 ## Changelog
 
 ### [0.2.0] (Planned)
 *   Implement functionality to select and modify or move multiple PCB items at once.
-*   Add a `verify_result` tool that uses screenshots for visual confirmation after operations. ([0708 commit](https://github.com/Finerestaurant/kicad-mcp-python/commit/c3daf7f833ddf46ffe2f80de01e1e54310304950))
+*   Add a `verify_pcb` tool that uses screenshots for visual confirmation after operations. ([0708 commit](https://github.com/Finerestaurant/kicad-mcp-python/commit/c3daf7f833ddf46ffe2f80de01e1e54310304950))
 
 ### [0.1.0] - 2025-07-02
 *   Initial release of the KiCad MCP server.
