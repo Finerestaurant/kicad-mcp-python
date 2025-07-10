@@ -158,9 +158,8 @@ class CreateItemFlowManager(ActionFlowManager, PCBTool):
             str: The ID or name of the created item
             
         Next action:
-            verify_pcb_step_1
+            verify_pcb
         """
-        self.initialize_board() # Initialize the board
         
         new_class = convert_to_object(get_proto_class(item_type).DESCRIPTOR, args)
         kipy_wrapper = get_wrapper_class(item_type)
@@ -240,9 +239,8 @@ class EditItemFlowManager(ActionFlowManager, PCBTool):
             str: ID or name of the edited item
             
         Next action:
-            verify_pcb_step_1
+            verify_pcb
         """
-        self.initialize_board() # Initialize the board
         
         
         id = KIID()
@@ -347,9 +345,8 @@ class MoveItemFlowManager(ActionFlowManager, PCBTool):
             str: ID or name of the modified item
             
         Next action:
-            verify_pcb_step_1
+            verify_pcb
         """
-        self.initialize_board() # Initialize the board
         
         # will be added in version 9.0.4
         
@@ -413,11 +410,8 @@ class RemoveItemFlowManager(ActionFlowManager):
             item_ids (list): List of item IDs to be removed.
             
         Next action:
-            verify_pcb_step_1
+            verify_pcb
         """
-        self._initialize_board()
-        
-        
         kiid_ids = []
         for item_id in item_ids:
             kiid = KIID()
@@ -443,15 +437,13 @@ class BoardAnalyzer(ToolManager, PCBTool):
         
         
     def get_board_status(self):
-        f'''
+        '''
         Retrieves the status of the current board.
         Returns:
             str: A string indicating the status of the board.
         '''
-        self.initialize_board()
         result = {}
         for item_type in BOARDITEM_TYPE_CONFIGS.keys():
-            item_wrapper = get_object_type(item_type)
             try:
                 result[item_type] = [item for item in self.board.get_items(get_object_type(item_type))]
             except Exception as e:
@@ -460,17 +452,15 @@ class BoardAnalyzer(ToolManager, PCBTool):
         
     
     def get_items_by_type(self, item_type: str):
-        f'''
+        '''
         Retrieves the list of items of the specified type from the board.
         The item_type should be one of the keys in BOARDITEM_TYPE_CONFIGS.
-        BOARDITEM_TYPE_CONFIGS.keys(): {BOARDITEM_TYPE_CONFIGS.keys()}
         
         Args:
             item_type (str): The type of items to retrieve.
         Returns:
             dict: A dictionary containing the list of items of the specified type.
         '''
-        self.initialize_board()
         
         result = {
             item.id.value:item for item in self.board.get_items(
@@ -488,7 +478,6 @@ class BoardAnalyzer(ToolManager, PCBTool):
         Returns:
             dict: A dictionary containing the configuration arguments for the specified item type.    
         '''
-        self.initialize_board()
         
         result = BOARDITEM_TYPE_CONFIGS[item_type]
         return result

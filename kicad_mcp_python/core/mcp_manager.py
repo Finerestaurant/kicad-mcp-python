@@ -1,7 +1,10 @@
-from typing import Any, Optional
+import inspect
 
-from mcp.server.fastmcp import FastMCP
+from typing import Any, Optional, get_origin
+
+from mcp.server.fastmcp import FastMCP, Context
 from mcp.types import AnyFunction, Resource
+from mcp.server.fastmcp.tools.base import Tool, func_metadata
 
 
 class ResourceManager:
@@ -42,9 +45,50 @@ class ToolManager:
         self.mcp = mcp
 
 
-    def add_tool(self, fn: AnyFunction):
+    def add_tool(self, func: AnyFunction):
         """
         Adds a tool to the MCP with its function name and documentation.
         """
-        self.mcp.add_tool(fn, fn.__name__, fn.__doc__)
-        return fn
+        try:
+            # TODO: Needs to be integrated as it duplicates ActionFlowManager.
+            def initialize_func(*args, **kwargs):
+                """
+                A wrapper function that calls the original function and formats the result.
+                """
+                self.initialize_board()
+                return func(*args, **kwargs)
+            
+            # https://github.com/modelcontextprotocol/python-sdk/blob/main/src/mcp/server/fastmcp/tools/base.py#L40
+            # The reason for directly using Tool.from_function to register the MCP tool
+            # is because context_kwarg is required.
+            context_kwarg = None
+            sig = inspect.signature(func)
+            for param_name, param in sig.parameters.items():
+                if get_origin(param.annotation) is not None:
+                    continue
+                if issubclass(param.annotation, Context):
+                    context_kwarg = param_name
+                    break
+                
+            func_arg_metadata = func_metadata(
+                func,
+                skip_names=[context_kwarg] if context_kwarg is not None else [],
+            )
+            parameters = func_arg_metadata.arg_model.model_json_schema()
+
+            tool = Tool(
+                fn=initialize_func,
+                name=func.__name__,
+                title=None,
+                description=func.__doc__,
+                parameters=parameters,
+                fn_metadata=func_arg_metadata,
+                is_async=False,
+                context_kwarg=context_kwarg,
+                annotations=None,
+            )
+            self.mcp._tool_manager._tools[tool.name] = tool
+            
+            
+        except Exception as e:
+            raise RuntimeError(f"Failed to register tool {func.__name__}: {str(e)}")
