@@ -14,19 +14,20 @@ This project is a Model Context Protocol (MCP) server for [KiCad](https://kicad.
 ### Wiring
 
 
-
 https://github.com/user-attachments/assets/e2ba57e7-2c77-4c56-a911-c461c77307e4
 
 
-
 ### Move item
-
 
 
 https://github.com/user-attachments/assets/de6c93dc-8808-4321-827e-ebad0556e7b1
 
 
 ### Visual Verification for Enhanced Accuracy
+
+
+https://github.com/user-attachments/assets/ecde3e7d-fe1b-4005-9f00-86e41ec02354
+
 
 A key feature of this server is its ability to provide visual feedback to the AI model. By generating screenshots of the PCB layout, the model can:
 
