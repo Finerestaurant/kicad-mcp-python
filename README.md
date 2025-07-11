@@ -23,8 +23,16 @@ https://github.com/user-attachments/assets/e2ba57e7-2c77-4c56-a911-c461c77307e4
 
 
 
-
 https://github.com/user-attachments/assets/de6c93dc-8808-4321-827e-ebad0556e7b1
+
+
+### Visual Verification for Enhanced Accuracy
+
+A key feature of this server is its ability to provide visual feedback to the AI model. By generating screenshots of the PCB layout, the model can:
+
+*   **Confirm Actions**: Visually verify that operations like creating, moving, or modifying components were executed correctly.
+*   **Improve Decision-Making**: Analyze the current visual state of the board to make more informed and context-aware decisions for subsequent tasks. This helps prevent errors and allows the model to perform more complex and accurate modifications.
+
 
 
 
@@ -40,8 +48,8 @@ With this MCP server, an AI model can perform tasks such as:
 *   **Analyze PCBs**:
     *   Get a list of all items of a specific type on the board
     *   Query the overall status information of the board
-*   **Verify Results**:
-    *   Generate screenshots of the PCB to visually confirm the results of an operation.
+
+
 
 
 ## Getting Started
