@@ -58,7 +58,10 @@ class ToolManager:
                 """
                 A wrapper function that calls the original function and formats the result.
                 """
-                self.initialize_board()
+                # TODO: Once KiCad's schematic API is complete, this should be moved to a higher-level class
+                # to initialize the entire project rather than just the board
+                
+                self.initialize_board() 
                 try:
                     result = func(*args, **kwargs)
                     return self.response_formatter(result)
