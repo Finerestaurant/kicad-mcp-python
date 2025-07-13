@@ -2,7 +2,6 @@ from typing import Dict
 
 from ..pcbmodule import PCBTool
 from ...core.ActionFlowManager import ActionFlowManager
-from ...core.mcp_manager import ToolManager
 from ...utils.convert_proto import (
     BOARDITEM_TYPE_CONFIGS, 
     get_proto_class,
@@ -16,6 +15,7 @@ from google.protobuf import message_factory
 from google.protobuf.descriptor import FieldDescriptor
 
 from mcp.server.fastmcp import FastMCP
+
 
 def convert_to_object(descriptor, args):
     wrapper = message_factory.GetMessageClass(descriptor)
@@ -158,7 +158,7 @@ class CreateItemFlowManager(ActionFlowManager, PCBTool):
             str: The ID or name of the created item
             
         Next action:
-            verify_pcb
+            get_board_status
         """
         
         new_class = convert_to_object(get_proto_class(item_type).DESCRIPTOR, args)
@@ -239,7 +239,7 @@ class EditItemFlowManager(ActionFlowManager, PCBTool):
             str: ID or name of the edited item
             
         Next action:
-            verify_pcb
+            get_board_status
         """
         
         
@@ -345,7 +345,7 @@ class MoveItemFlowManager(ActionFlowManager, PCBTool):
             str: ID or name of the modified item
             
         Next action:
-            verify_pcb
+            get_board_status
         """
         
         # will be added in version 9.0.4
@@ -410,7 +410,7 @@ class RemoveItemFlowManager(ActionFlowManager):
             item_ids (list): List of item IDs to be removed.
             
         Next action:
-            verify_pcb
+            get_board_status
         """
         kiid_ids = []
         for item_id in item_ids:
@@ -423,64 +423,6 @@ class RemoveItemFlowManager(ActionFlowManager):
     
     
 
-class BoardAnalyzer(ToolManager, PCBTool):
-    '''
-    A class that gathers tools for analyzing the board and retrieving information, used in manipulate_tool. 
-    '''
-
-    def __init__(self, mcp: FastMCP):
-        super().__init__(mcp)
-        
-        self.add_tool(self.get_board_status)        
-        self.add_tool(self.get_items_by_type)        
-        self.add_tool(self.get_item_type_args_hint)        
-        
-        
-    def get_board_status(self):
-        '''
-        Retrieves the status of the current board.
-        Returns:
-            str: A string indicating the status of the board.
-        '''
-        result = {}
-        for item_type in BOARDITEM_TYPE_CONFIGS.keys():
-            try:
-                result[item_type] = [item for item in self.board.get_items(get_object_type(item_type))]
-            except Exception as e:
-                result[item_type] = f'Not yet implemented, {str(e)}'
-        return result
-        
-    
-    def get_items_by_type(self, item_type: str):
-        '''
-        Retrieves the list of items of the specified type from the board.
-        The item_type should be one of the keys in BOARDITEM_TYPE_CONFIGS.
-        
-        Args:
-            item_type (str): The item type (e.g., 'Footprint', 'Via', 'Track')
-        Returns:
-            dict: A dictionary containing the list of items of the specified type.
-        '''
-        
-        result = {
-            item.id.value:item for item in self.board.get_items(
-            get_object_type(item_type)
-            )}
-        return result
-    
-    
-    def get_item_type_args_hint(self, item_type: str):
-        '''
-        Retrieves the configuration arguments for a specific board item type.
-        
-        Args:
-            item_type (str): The item type (e.g., 'Footprint', 'Via', 'Track')
-        Returns:
-            dict: A dictionary containing the configuration arguments for the specified item type.    
-        '''
-        
-        result = BOARDITEM_TYPE_CONFIGS[item_type]
-        return result
     
     
 class ManipulationTools:
@@ -499,5 +441,3 @@ class ManipulationTools:
         MoveItemFlowManager(mcp)
         RemoveItemFlowManager(mcp)
         
-        # Register board analyzer
-        BoardAnalyzer(mcp)

@@ -1,2 +1,2 @@
 from .manipulate_tool import ManipulationTools
-from .verify_tool import VerifyTools
+from .analyze_tool import AnalyzeTools

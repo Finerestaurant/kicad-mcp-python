@@ -23,16 +23,20 @@ https://github.com/user-attachments/assets/e2ba57e7-2c77-4c56-a911-c461c77307e4
 https://github.com/user-attachments/assets/de6c93dc-8808-4321-827e-ebad0556e7b1
 
 
-### Visual Verification for Enhanced Accuracy
+### Enhanced Board Analysis and Action Verification
 
 
 https://github.com/user-attachments/assets/ecde3e7d-fe1b-4005-9f00-86e41ec02354
 
 
-A key feature of this server is its ability to provide visual feedback to the AI model. By generating screenshots of the PCB layout, the model can:
+This server features `AnalyzeTools` for enhanced board analysis. A key tool is `get_board_status`, which provides a comprehensive overview of the PCB layout, including screenshots.
 
-*   **Confirm Actions**: Visually verify that operations like creating, moving, or modifying components were executed correctly.
-*   **Improve Decision-Making**: Analyze the current visual state of the board to make more informed and context-aware decisions for subsequent tasks. This helps prevent errors and allows the model to perform more complex and accurate modifications.
+To ensure robust and reliable operations, the server uses an `ActionFlowManager`. This manager orchestrates the execution of actions by automatically invoking `get_board_status` both before and after each action. This flow provides the AI model with critical context:
+
+*   **Pre-Action Analysis**: By reviewing the board's state before an action, the model can make better-informed decisions.
+*   **Post-Action Verification**: By comparing the board's state before and after the action, the model can visually confirm that the operation was successful and achieved the desired outcome.
+
+This automated verification process significantly improves the accuracy and reliability of automated PCB design tasks.
 
 
 
@@ -47,8 +51,8 @@ With this MCP server, an AI model can perform tasks such as:
     *   Move and rotate items
     *   Delete unnecessary items
 *   **Analyze PCBs**:
-    *   Get a list of all items of a specific type on the board
-    *   Query the overall status information of the board
+    *   Get a list of all items of a specific type on the board.
+    *   Query the overall status information of the board using `get_board_status` for comprehensive analysis.
 
 
 
@@ -72,7 +76,7 @@ This project uses the `kicad-python` library as a Git submodule. Therefore, you 
 
 ### 2. Configure Environment Variables
 
-Before running the server, you need to create a `.env` file in the project's root directory (`KiCad-mcp-python/.env`). This file is crucial for tools that rely on KiCad's command-line interface (CLI), such as the `verify_result` tool which generates screenshots to confirm the results of an operation. It stores the necessary environment variables for the server to function correctly.
+Before running the server, you need to create a `.env` file in the project's root directory (`KiCad-mcp-python/.env`). This file is crucial for tools that rely on KiCad's command-line interface (CLI), such as `get_board_status` which generates screenshots to provide visual context of the board. It stores the necessary environment variables for the server to function correctly.
 
 Create a file named `.env` and add the following content, adjusting the paths to match your system configuration:
 
@@ -153,8 +157,8 @@ To use this server with an MCP client (e.g., a VSCode extension), you need to co
 
 ### [0.2.0] (Planned)
 *   Implement functionality to select and modify or move multiple PCB items at once.
-*   Add a `verify_pcb` tool that uses screenshots for visual confirmation after operations. ([0708 commit](https://github.com/Finerestaurant/kicad-mcp-python/commit/c3daf7f833ddf46ffe2f80de01e1e54310304950))
 *   Create a prompt section to serve as a guide for using the tools.
+*   Updated `get_board_status` to include pre and post operation board information with screenshots for visual verification. ([0708 commit](https://github.com/Finerestaurant/kicad-mcp-python/commit/c3daf7f833ddf46ffe2f80de01e1e54310304950))
 
 
 ### [0.1.0] - 2025-07-02
