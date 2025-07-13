@@ -1,6 +1,6 @@
 import inspect
 
-from typing import Any, Optional, get_origin
+from typing import Any, Optional, get_origin, Dict
 
 from mcp.server.fastmcp import FastMCP, Context
 from mcp.types import AnyFunction, Resource
@@ -44,19 +44,26 @@ class ToolManager:
     def __init__(self, mcp: FastMCP):
         self.mcp = mcp
 
+    def response_formatter(self, result: Any, status: str = 'success', error_type: Optional[str] = None) -> Dict[str, Any]:
+        return result # init function, will be use in ActionFlowmanager
+
 
     def add_tool(self, func: AnyFunction):
         """
         Adds a tool to the MCP with its function name and documentation.
         """
         try:
-            # TODO: Needs to be integrated as it duplicates ActionFlowManager.
+
             def initialize_func(*args, **kwargs):
                 """
                 A wrapper function that calls the original function and formats the result.
                 """
                 self.initialize_board()
-                return func(*args, **kwargs)
+                try:
+                    result = func(*args, **kwargs)
+                    return self.response_formatter(result)
+                except Exception as e:
+                    return self.response_formatter(str(e), status='error', error_type=type(e).__name__)
             
             # https://github.com/modelcontextprotocol/python-sdk/blob/main/src/mcp/server/fastmcp/tools/base.py#L40
             # The reason for directly using Tool.from_function to register the MCP tool
