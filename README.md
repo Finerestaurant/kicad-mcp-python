@@ -26,7 +26,10 @@ https://github.com/user-attachments/assets/de6c93dc-8808-4321-827e-ebad0556e7b1
 ### Enhanced Board Analysis and Action Verification
 
 
-https://github.com/user-attachments/assets/ecde3e7d-fe1b-4005-9f00-86e41ec02354
+
+
+https://github.com/user-attachments/assets/0fea60de-d012-4b4d-bfa4-dd1b758b2c7f
+
 
 
 This server features `AnalyzeTools` for enhanced board analysis. A key tool is `get_board_status`, which provides a comprehensive overview of the PCB layout, including screenshots.
