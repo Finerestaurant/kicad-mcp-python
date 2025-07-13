@@ -161,7 +161,7 @@ To use this server with an MCP client (e.g., a VSCode extension), you need to co
 ### [0.2.0] (Planned)
 *   Implement functionality to select and modify or move multiple PCB items at once.
 *   Create a prompt section to serve as a guide for using the tools.
-*   Updated `get_board_status` to include pre and post operation board information with screenshots for visual verification. ([0708 commit](https://github.com/Finerestaurant/kicad-mcp-python/commit/c3daf7f833ddf46ffe2f80de01e1e54310304950))
+*   Updated `get_board_status` to include pre and post operation board information with screenshots for visual verification. ([0714 commit](https://github.com/Finerestaurant/kicad-mcp-python/commit/719715b6ef2bce4e4738a63439842929d22adacc))
 
 
 ### [0.1.0] - 2025-07-02
