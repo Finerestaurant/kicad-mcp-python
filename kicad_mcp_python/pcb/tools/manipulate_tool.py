@@ -127,7 +127,7 @@ class CreateItemFlowManager(ActionFlowManager, PCBTool):
         The operation of Footprint is handled by searching the footprint table.
         
         Args:
-            item_type (str): The item type (e.g., 'footprint', 'symbol')
+            item_type (str): The item type (e.g., 'Footprint', 'Via', 'Track')
         
         Return: 
             dict: Type hints for the arguments required to create the item
@@ -151,7 +151,7 @@ class CreateItemFlowManager(ActionFlowManager, PCBTool):
         Other arguments than required_args are treated as optional.
         
         Args:
-            item_type (str): The item type (e.g., 'footprint', 'symbol')
+            item_type (str): The item type (e.g., 'Footprint', 'Via', 'Track')
             args (dict): The arguments required to create the item
         
         Returns:
@@ -208,7 +208,7 @@ class EditItemFlowManager(ActionFlowManager, PCBTool):
         This function retrieves the list of items of the specified type.
         
         Args:
-            item_type (str): The item type (e.g., 'footprint', 'symbol')
+            item_type (str): The item type (e.g., 'Footprint', 'Via', 'Track')
         
         Returns:
             item_list: A list of items of that type
@@ -307,7 +307,7 @@ class MoveItemFlowManager(ActionFlowManager, PCBTool):
         This function retrieves the list of items of the specified type.
         
         Args:
-            item_type (str): The item type (e.g., 'footprint', 'symbol')
+            item_type (str): The item type (e.g., 'Footprint', 'Via', 'Track')
         
         Returns:
             item_list: A list of items of that type
@@ -457,7 +457,7 @@ class BoardAnalyzer(ToolManager, PCBTool):
         The item_type should be one of the keys in BOARDITEM_TYPE_CONFIGS.
         
         Args:
-            item_type (str): The type of items to retrieve.
+            item_type (str): The item type (e.g., 'Footprint', 'Via', 'Track')
         Returns:
             dict: A dictionary containing the list of items of the specified type.
         '''
@@ -474,7 +474,7 @@ class BoardAnalyzer(ToolManager, PCBTool):
         Retrieves the configuration arguments for a specific board item type.
         
         Args:
-            item_type (str): The type of board item.
+            item_type (str): The item type (e.g., 'Footprint', 'Via', 'Track')
         Returns:
             dict: A dictionary containing the configuration arguments for the specified item type.    
         '''
