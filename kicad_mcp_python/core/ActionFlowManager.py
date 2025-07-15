@@ -1,11 +1,9 @@
 import logging
-import inspect
 
-from typing import Any, Dict, Optional, Callable, get_origin
+from typing import Any, Dict, Optional, Callable
 
-from mcp.server.fastmcp import FastMCP, Context
+from mcp.server.fastmcp import FastMCP
 from kipy import KiCad
-from mcp.server.fastmcp.tools.base import Tool, func_metadata
 from .mcp_manager import ToolManager
 
 logger = logging.getLogger(__name__)
