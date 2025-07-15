@@ -6,7 +6,7 @@ class PCBTool:
     Represents a PCB module with its properties and methods.
     """
 
-    def initialize_board(self):
+    def initialize_kicad(self):
         # TODO: Need to add logic to refresh the board.
         try:
             self.board = KiCad().get_board()

@@ -7,6 +7,7 @@ from mcp.types import AnyFunction, Resource
 from mcp.server.fastmcp.tools.base import Tool, func_metadata
 
 
+
 class ResourceManager:
     """
     Represents a resource with its properties and methods.
@@ -64,10 +65,7 @@ class ToolManager:
                 """
                 A wrapper function that calls the original function and formats the result.
                 """
-                # TODO: Once KiCad's schematic API is complete, this should be moved to a higher-level class
-                # to initialize the entire project rather than just the board
-                
-                self.initialize_board() 
+                self.initialize_kicad() 
                 try:
                     result = func(*args, **kwargs)
                     return self.response_formatter(result)
