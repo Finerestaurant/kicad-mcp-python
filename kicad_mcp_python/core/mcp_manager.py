@@ -44,7 +44,13 @@ class ToolManager:
     def __init__(self, mcp: FastMCP):
         self.mcp = mcp
 
-    def response_formatter(self, result: Any, status: str = 'success', error_type: Optional[str] = None) -> Dict[str, Any]:
+    def response_formatter(
+        self, 
+        result: Any, 
+        status: str = 'success', 
+        error_type: Optional[str] = None
+        ) -> Dict[str, Any]:
+        
         return result # init function, will be use in ActionFlowmanager
 
 
